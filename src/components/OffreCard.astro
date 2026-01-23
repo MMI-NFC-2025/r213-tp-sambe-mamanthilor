@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import favoriteSvg from '../assets/favorite.svg';
+
 interface Props {
     offre: {
         id: string;
@@ -19,8 +22,8 @@ const { offre }: Props = Astro.props;
 <div class="offre-card rounded-xl p-4 shadow-md" id={"card-" + offre.id} style={offre.favori ? 'background-color: #fef3c7; border: 2px solid #f59e0b' : 'background-color: white; border: 2px solid #d1d5db'}>
     <div>
         <h3 class="font-bold">{offre.nomMaison}</h3>
-        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori.toString()}>
-            {offre.favori ? '⭐' : '☆'}
+        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori.toString()} style="background: none; border: none; cursor: pointer; padding: 0;">
+            <img src={favoriteSvg.src} alt="Favori" style={`width: 24px; height: 24px; filter: ${offre.favori ? 'invert(72%) sepia(94%) saturate(1500%) hue-rotate(8deg)' : 'grayscale(100%) opacity(0.4)'}`} />
         </button>
     </div>
     <p>{offre.adresse}</p>

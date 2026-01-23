@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import OffreCard from '../components/OffreCard.astro';
+import img1 from '../assets/images/image1.png';
+import img2 from '../assets/images/image2.png';
+import img3 from '../assets/images/image3.png';
 
 const offres = [
     {
@@ -12,7 +15,7 @@ const offres = [
         "nomMaison": "Beverly Springfield",
         "prix": 2700,
         "surface": 45,
-        "imgUrl": "/src/assets/image1.png"
+        "imgUrl": img1.src
     },
     {
         "adresse": "2699 Green Valley, Highland Lake",
@@ -23,7 +26,7 @@ const offres = [
         "nomMaison": "Palm Harbor",
         "prix": 2095,
         "surface": 42,
-        "imgUrl": "/src/assets/image2.png"
+        "imgUrl": img2.src
     },
     {
         "adresse": "909 Woodland St, Michigan, IN",
@@ -34,7 +37,7 @@ const offres = [
         "nomMaison": "Faulkner Ave",
         "prix": 4550,
         "surface": 80,
-        "imgUrl": "/src/assets/image3.png"
+        "imgUrl": img3.src
     }
 ]
 ---
