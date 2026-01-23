@@ -23,7 +23,7 @@ const { offre }: Props = Astro.props;
     <div>
         <h3 class="font-bold">{offre.nomMaison}</h3>
         <button class="favori-btn" data-id={offre.id} data-favori={offre.favori.toString()} style="background: none; border: none; cursor: pointer; padding: 0;">
-            <img src={favoriteSvg.src} alt="Favori" style={`width: 24px; height: 24px; filter: ${offre.favori ? 'invert(72%) sepia(94%) saturate(1500%) hue-rotate(8deg)' : 'grayscale(100%) opacity(0.4)'}`} />
+            <img src={favoriteSvg.src} alt="Favori" style={`width: 24px; height: 24px; filter: ${offre.favori ? 'invert(72%) sepia(94%) saturate(1500%) hue-rotate(8deg)' : 'brightness(0)'}`} />
         </button>
     </div>
     <p>{offre.adresse}</p>
