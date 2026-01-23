@@ -12,7 +12,7 @@ const offres = [
         "nomMaison": "Beverly Springfield",
         "prix": 2700,
         "surface": 45,
-        "imgUrl": "image1.png"
+        "imgUrl": "/src/assets/image1.png"
     },
     {
         "adresse": "2699 Green Valley, Highland Lake",
@@ -23,7 +23,7 @@ const offres = [
         "nomMaison": "Palm Harbor",
         "prix": 2095,
         "surface": 42,
-        "imgUrl": "image2.png"
+        "imgUrl": "/src/assets/image2.png"
     },
     {
         "adresse": "909 Woodland St, Michigan, IN",
@@ -34,7 +34,7 @@ const offres = [
         "nomMaison": "Faulkner Ave",
         "prix": 4550,
         "surface": 80,
-        "imgUrl": "image3.png"
+        "imgUrl": "/src/assets/image3.png"
     }
 ]
 ---
@@ -43,7 +43,7 @@ const offres = [
     <p>Découvrez notre sélection de propriétés disponibles.</p>
     
     <button id="favori-button" class="bg-yellow-200 rounded-lg text-gray-800 p-2 border-1">Afficher les favoris</button>
-    <div>
+    <div class="grid grid-cols-3 gap-4">
         {
             offres.map(offre => (
                 <div class="offre" data-favori={offre.favori.toString()}>

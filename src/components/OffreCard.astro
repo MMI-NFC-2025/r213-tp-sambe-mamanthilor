@@ -13,15 +13,44 @@ interface Props {
     }
 }
 
-const { offre } = Astro.props;
+const { offre }: Props = Astro.props;
 ---
 
-<div class="offre-card">
-    <h3>{offre.nomMaison}</h3>
+<div class="offre-card rounded-xl p-4 shadow-md" id={"card-" + offre.id} style={offre.favori ? 'background-color: #fef3c7; border: 2px solid #f59e0b' : 'background-color: white; border: 2px solid #d1d5db'}>
+    <div>
+        <h3 class="font-bold">{offre.nomMaison}</h3>
+        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori.toString()}>
+            {offre.favori ? '⭐' : '☆'}
+        </button>
+    </div>
     <p>{offre.adresse}</p>
-    <p>Prix: {offre.prix}€</p>
+    <p class="text-blue-700">Prix: {offre.prix}€</p>
     <p>Chambres: {offre.nbChambres}</p>
     <p>Salles de bain: {offre.nbSdb}</p>
     <p>Surface: {offre.surface}m²</p>
     <img src={offre.imgUrl} alt={offre.nomMaison} />
 </div>
+
+<script>
+    const buttons = document.querySelectorAll('.favori-btn');
+    
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const isFavori = btn.dataset.favori === 'true';
+            const newState = !isFavori;
+            btn.dataset.favori = newState.toString();
+            btn.textContent = newState ? '⭐' : '☆';
+            
+            const cardId = 'card-' + btn.dataset.id;
+            const card = document.getElementById(cardId);
+            
+            if (newState) {
+                card.style.backgroundColor = '#fef3c7';
+                card.style.border = '2px solid #f59e0b';
+            } else {
+                card.style.backgroundColor = 'white';
+                card.style.border = '2px solid #d1d5db';
+            }
+        });
+    });
+</script>
