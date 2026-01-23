@@ -1,0 +1,27 @@
+---
+interface Props {
+    offre: {
+        id: string;
+        nomMaison: string;
+        adresse: string;
+        prix: number;
+        nbChambres: number;
+        nbSdb: number;
+        surface: number;
+        imgUrl: string;
+        favori: boolean;
+    }
+}
+
+const { offre } = Astro.props;
+---
+
+<div class="offre-card">
+    <h3>{offre.nomMaison}</h3>
+    <p>{offre.adresse}</p>
+    <p>Prix: {offre.prix}€</p>
+    <p>Chambres: {offre.nbChambres}</p>
+    <p>Salles de bain: {offre.nbSdb}</p>
+    <p>Surface: {offre.surface}m²</p>
+    <img src={offre.imgUrl} alt={offre.nomMaison} />
+</div>
