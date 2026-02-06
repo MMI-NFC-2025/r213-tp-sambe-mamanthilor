@@ -11,15 +11,6 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
+  output: 'server',
   adapter: vercel(),
-  
-  image: {
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '8090',
-      },
-    ],
-  },
 });
