@@ -1,0 +1,40 @@
+---
+import { getOffresByMaxPrice } from '../../../js/backend.mjs';
+import Layout from '../../../layouts/Layout.astro';
+import OffreCard from '../../../components/OffreCard.astro';
+
+const { prix } = Astro.params;
+const maxPrice = prix ? parseInt(prix) : 0;
+const offres = await getOffresByMaxPrice(maxPrice);
+---
+
+<Layout titre={`Maisons à moins de ${maxPrice}€`}>
+    <p>Découvrez nos propriétés au prix de {maxPrice}€ ou moins.</p>
+    
+    {offres.length > 0 ? (
+        <div class="grid grid-cols-3 gap-4">
+            {offres.map(offre => (
+                <div class="offre">
+                    <OffreCard offre={offre} />
+                </div>
+            ))}
+        </div>
+    ) : (
+        <p>Aucune offre disponible avec ce prix.</p>
+    )}
+    
+    <a href="/offres" class="back-link">← Retour à la liste</a>
+</Layout>
+
+<style>
+    .back-link {
+        display: inline-block;
+        margin-top: 2rem;
+        color: #3b82f6;
+        text-decoration: none;
+    }
+    
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
