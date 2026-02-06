@@ -1,6 +1,5 @@
 ---
 import PbImage from './PbImage.astro';
-import favoriteSvg from '../assets/favorite.svg';
 
 interface Props {
     offre: any;
@@ -9,17 +8,53 @@ interface Props {
 const { offre }: Props = Astro.props;
 ---
 
-<div class="offre-card rounded-xl p-4 shadow-md" id={"card-" + offre.id} style={offre.favori ? 'background-color: #fef3c7; border: 2px solid #f59e0b' : 'background-color: white; border: 2px solid #d1d5db'}>
-    <div>
+<div class="offre-card rounded-xl p-4 shadow-md bg-pink-300 border-" id={"card-" + offre.id} style={offre.favori ? 'bg-pink-300; border: 2px solid #f59e0b' : 'background-color: white; border: 2px solid #d1d5db'}>
+    <div class="header-card">
         <h3 class="font-bold">{offre.nomMaison}</h3>
-        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori?.toString() || 'false'} style="background: none; border: none; cursor: pointer; padding: 0;">
-            <img src={favoriteSvg.src} alt="Favori" style={`width: 24px; height: 24px; filter: ${offre.favori ? 'invert(72%) sepia(94%) saturate(1500%) hue-rotate(8deg)' : 'brightness(0)'}`} />
+        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori?.toString() || 'false'} style="background: none; border: none; cursor: pointer; padding: 0; font-size: 24px;">
+            <span class={offre.favori ? 'heart-filled' : 'heart-empty'}>
+                {offre.favori ? '❤️' : '♡'}
+            </span>
         </button>
     </div>
-    {offre.images && offre.images[0] && (
-        <PbImage record={offre} recordImage={offre.images[0]} />
-    )}
+    <div class="image-container">
+        {offre.images && offre.images[0] && (
+            <PbImage record={offre} recordImage={offre.images[0]} width={300} height={250} />
+        )}
+    </div>
 </div>
+
+<style>
+    .header-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .heart-filled {
+        filter: saturate(1) hue-rotate(-10deg) brightness(1.1);
+        display: inline-block;
+    }
+    
+    .heart-empty {
+        color: #9ca3af;
+        display: inline-block;
+    }
+    
+    .image-container {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .image-container :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
 
 <script>
     const buttons = document.querySelectorAll('.favori-btn') as NodeListOf<HTMLElement>;
@@ -29,7 +64,17 @@ const { offre }: Props = Astro.props;
             const isFavori = (btn as HTMLElement).dataset.favori === 'true';
             const newState = !isFavori;
             (btn as HTMLElement).dataset.favori = newState.toString();
-            btn.textContent = newState ? '⭐' : '☆';
+            
+            const span = btn.querySelector('span') as HTMLElement;
+            span.textContent = newState ? '❤️' : '♡';
+            
+            if (newState) {
+                span.classList.remove('heart-empty');
+                span.classList.add('heart-filled');
+            } else {
+                span.classList.remove('heart-filled');
+                span.classList.add('heart-empty');
+            }
             
             const cardId = 'card-' + (btn as HTMLElement).dataset.id;
             const card = document.getElementById(cardId) as HTMLElement;

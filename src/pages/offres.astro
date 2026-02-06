@@ -11,7 +11,7 @@ const offres = await getOffres();
 <Layout titre="Offres">
     <p>Découvrez notre sélection de propriétés disponibles.</p>
     
-    <button id="favori-button" class="bg-yellow-200 rounded-lg text-gray-800 p-2 border">Afficher les favoris</button>
+    <button id="favori-button" class="bg-pink-300 rounded-lg text-gray-800 font-bold p-2 border" style="border: 2px solid #f59e0b;">Afficher les favoris</button>
     <div class="grid grid-cols-3 gap-4">
         {
             offres.map(offre => (
