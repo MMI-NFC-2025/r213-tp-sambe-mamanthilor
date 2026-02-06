@@ -1,19 +1,9 @@
 ---
-import { Image } from 'astro:assets';
+import PbImage from './PbImage.astro';
 import favoriteSvg from '../assets/favorite.svg';
 
 interface Props {
-    offre: {
-        id: string;
-        nomMaison: string;
-        adresse: string;
-        prix: number;
-        nbChambres: number;
-        nbSdb: number;
-        surface: number;
-        imgUrl: string;
-        favori: boolean;
-    }
+    offre: any;
 }
 
 const { offre }: Props = Astro.props;
@@ -22,35 +12,32 @@ const { offre }: Props = Astro.props;
 <div class="offre-card rounded-xl p-4 shadow-md" id={"card-" + offre.id} style={offre.favori ? 'background-color: #fef3c7; border: 2px solid #f59e0b' : 'background-color: white; border: 2px solid #d1d5db'}>
     <div>
         <h3 class="font-bold">{offre.nomMaison}</h3>
-        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori.toString()} style="background: none; border: none; cursor: pointer; padding: 0;">
+        <button class="favori-btn" data-id={offre.id} data-favori={offre.favori?.toString() || 'false'} style="background: none; border: none; cursor: pointer; padding: 0;">
             <img src={favoriteSvg.src} alt="Favori" style={`width: 24px; height: 24px; filter: ${offre.favori ? 'invert(72%) sepia(94%) saturate(1500%) hue-rotate(8deg)' : 'brightness(0)'}`} />
         </button>
     </div>
-    <p>{offre.adresse}</p>
-    <p class="text-blue-700">Prix: {offre.prix}€</p>
-    <p>Chambres: {offre.nbChambres}</p>
-    <p>Salles de bain: {offre.nbSdb}</p>
-    <p>Surface: {offre.surface}m²</p>
-    <img src={offre.imgUrl} alt={offre.nomMaison} />
+    {offre.images && offre.images[0] && (
+        <PbImage record={offre} recordImage={offre.images[0]} />
+    )}
 </div>
 
 <script>
-    const buttons = document.querySelectorAll('.favori-btn');
+    const buttons = document.querySelectorAll('.favori-btn') as NodeListOf<HTMLElement>;
     
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
-            const isFavori = btn.dataset.favori === 'true';
+            const isFavori = (btn as HTMLElement).dataset.favori === 'true';
             const newState = !isFavori;
-            btn.dataset.favori = newState.toString();
+            (btn as HTMLElement).dataset.favori = newState.toString();
             btn.textContent = newState ? '⭐' : '☆';
             
-            const cardId = 'card-' + btn.dataset.id;
-            const card = document.getElementById(cardId);
+            const cardId = 'card-' + (btn as HTMLElement).dataset.id;
+            const card = document.getElementById(cardId) as HTMLElement;
             
-            if (newState) {
+            if (card && newState) {
                 card.style.backgroundColor = '#fef3c7';
                 card.style.border = '2px solid #f59e0b';
-            } else {
+            } else if (card) {
                 card.style.backgroundColor = 'white';
                 card.style.border = '2px solid #d1d5db';
             }
