@@ -94,3 +94,36 @@ export async function addOffre(house) {
         };
     }
 }
+
+export async function setFavori(house) {
+    try {
+        await db.collection('maison').update(house.id, {favori: !house.favori});
+    } catch (error) {
+        console.log('Une erreur est survenue en mettant à jour le favori', error);
+    }
+}
+
+export async function getAgents() {
+    try {
+        const data = await db.collection('agent').getFullList({
+            sort: '-created',
+        });
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la liste des agents', error);
+        return [];
+    }
+}
+
+export async function getOffresByAgent(agentId) {
+    try {
+        const data = await db.collection('maison').getFullList({
+            filter: `Agent = "${agentId}"`,
+            sort: '-created',
+        });
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant les offres de l\'agent', error);
+        return [];
+    }
+}

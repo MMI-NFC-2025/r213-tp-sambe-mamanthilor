@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import OffreCard from '../../components/OffreCard.astro';
+import { getOffresByAgent, getAgents } from '../../js/backend.mjs';
+
+const { id } = Astro.params;
+
+export async function getStaticPaths() {
+    const agents = await getAgents();
+    return agents.map(agent => ({
+        params: { id: agent.id }
+    }));
+}
+
+const agents = await getAgents();
+const agent = agents.find((a: any) => a.id === id);
+const offres = await getOffresByAgent(id);
+---
+
+<Layout titre={agent?.Nom ? `Offres de ${agent.Nom} ${agent.Prenom}` : "Offres"}>
+    {agent && (
+        <div class="agent-info mb-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
+            <h2 class="text-3xl font-bold mb-4">{agent.Nom} {agent.Prenom}</h2>
+            {agent.Email && <p class="text-gray-700">📧 <strong>Email:</strong> {agent.Email}</p>}
+        </div>
+    )}
+    
+    <a href="/agents" class="inline-block px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mb-6 font-semibold">
+        ← Retour aux agents
+    </a>
+    
+    {offres.length > 0 ? (
+        <div>
+            <h3 class="text-2xl font-bold mb-6">Offres disponibles ({offres.length})</h3>
+            <div class="offres-grid">
+                {offres.map((offre: any) => (
+                    <OffreCard offre={offre} />
+                ))}
+            </div>
+        </div>
+    ) : (
+        <p class="text-gray-600 text-lg">Aucune offre disponible pour cet agent.</p>
+    )}
+</Layout>
+
+<style>
+    .offres-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+</style>

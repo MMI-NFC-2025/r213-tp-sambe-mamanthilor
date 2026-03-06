@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAgents } from '../../js/backend.mjs';
+
+const agents = await getAgents();
+---
+
+<Layout titre="Agents">
+    <h2>Nos Agents Immobiliers</h2>
+    <p>Découvrez notre équipe d'experts immobiliers.</p>
+    
+    <div class="agents-grid">
+        {agents.map((agent: any) => (
+            <div class="agent-card rounded-lg shadow-lg p-6 bg-white border border-gray-200 hover:shadow-xl transition-shadow">
+                <h3 class="text-xl font-bold mb-2">{agent.Nom} {agent.Prenom}</h3>
+                {agent.Email && <p class="text-gray-600 mb-4">📧 {agent.Email}</p>}
+                <a href={`/agents/${agent.id}`} class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-semibold">
+                    Voir les offres
+                </a>
+            </div>
+        ))}
+    </div>
+</Layout>
+
+<style>
+    .agents-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .agent-card {
+        transition: transform 0.3s ease;
+    }
+    
+    .agent-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
